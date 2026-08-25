@@ -12,6 +12,9 @@ import math
 import os
 import shutil
 import sys
+from dotenv import load_dotenv
+
+load_dotenv('config.env')
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -48,23 +51,20 @@ MAX_ISL_LENGTH_M = 14_000_000.0 # margem acima do diametro da orbita para os ISL
 # ============================================================================
 # PARAMETROS DE SIMULAÇÃO
 # ============================================================================
-""" Simulações Validas """
-INDEX = 0
-ORBITS = [25,25,10,10]
-SATS = [25,200,100,100]
-GS = [100,100,200,300]
-SIMULACAO = "simulacao_10_minutes_50s"
+NUM_ORBITS = int(os.getenv("ORBITS"))
+NUM_SATS_PER_ORBIT = int(os.getenv("SATS"))
+NUM_GROUND_STATIONS = int(os.getenv("GS"))
+SIMULACAO = os.getenv("SIMULACAO")
+NUM_THREADS = int(os.getenv("NUM_THREADS"))
 
+DURATION_S = int(os.getenv("DURATION_S"))
+TIME_STEP_S = int(os.getenv("TIME_STEP_S"))
+TIME_STEP_MS = TIME_STEP_S * 1000
 
-BASE_NAME = SIMULACAO   # NOME DO EXPERIMENTO
-DURATION_S = 1200       # 20 minutos
-TIME_STEP_MS = 5000    # 5 segundos
-
-NUM_GROUND_STATIONS = GS[INDEX]
-NUM_ORBITS = ORBITS[INDEX]
-NUM_SATS_PER_ORBIT = SATS[INDEX]
+#NUM_GROUND_STATIONS = GS
+#NUM_ORBITS = ORBITS
+#NUM_SATS_PER_ORBIT = SATS
 TOTAL_SATS = NUM_ORBITS * NUM_SATS_PER_ORBIT
-NUM_THREADS = 6
 
 algorithms = [
     "algorithm_free_one_only_gs_relays",
@@ -90,7 +90,7 @@ def get_gsl_interface_config(dynamic_state_algorithm: str) -> tuple[int, int, fl
         return NUM_GROUND_STATIONS, 1, 1.0, 1.0
     raise ValueError("Unknown dynamic state algorithm: " + dynamic_state_algorithm)
 
-CONSTELLATION_NAME = BASE_NAME
+CONSTELLATION_NAME = SIMULACAO
 CONSTELLATION_DIR = os.path.join(OUTPUT_DIR, CONSTELLATION_NAME)
 # ============================================================================
 # HELPERS

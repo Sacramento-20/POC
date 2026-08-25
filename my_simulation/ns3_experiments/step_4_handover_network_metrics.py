@@ -11,19 +11,18 @@ import os
 import statistics
 from collections import defaultdict
 from dataclasses import dataclass
+from dotenv import load_dotenv
 
+load_dotenv('config.env')
 
-INDEX = 0
+SIMULACAO = os.getenv("SIMULACAO")
 
-SIMULACAO = 'simulacao_20_minutes_5s_'
-
-STATE = ['dynamic_state_5000ms_for_1200s', 
-         'dynamic_state_5000ms_for_1200s_rl']
+STATE = os.getenv("STATE")
 
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-RUN_NAME = SIMULACAO + STATE[1]
-DYNAMIC_STATE = STATE[1]
+RUN_NAME = SIMULACAO + STATE
+DYNAMIC_STATE = STATE
 PING_WINDOW_NS = 5_000_000_000
 
 RUN_DIR = os.path.join(SCRIPT_DIR, "runs", RUN_NAME)

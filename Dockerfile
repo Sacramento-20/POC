@@ -136,6 +136,7 @@ RUN unzip ns-3.31.zip && \
 WORKDIR /workspace/hypatia
 RUN --mount=type=cache,target=/root/.cache/pip \
     python3 -m pip install \
+    python-dotenv \
     numpy \
     astropy \
     ephem \

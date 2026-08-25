@@ -22,20 +22,20 @@ sys.path.insert(0, os.path.join(REPO_ROOT, "satgenpy"))
 from satgen.distance_tools import distance_m_ground_station_to_satellite
 from satgen.ground_stations import read_ground_stations_extended
 from satgen.tles import read_tles
+from dotenv import load_dotenv
 
+load_dotenv('config.env')
 # ============================================================================
 # CONFIGURAÇÃO: ALTERAR CONFORME NECESSÁRIO
 # ============================================================================
 
-SIMULACAO = 'simulacao_20_minutes_5s_' 
-#'simulacao_1000_sats_100_gs'
+SIMULACAO = os.getenv("SIMULACAO")  # 'simulacao_20_minutes_5s_' 
 
-STATE = ['dynamic_state_5000ms_for_1200s', 
-         'dynamic_state_5000ms_for_1200s_rl']
+STATE = os.getenv("STATE")  # 'dynamic_state_5000ms_for_1200s'
 
 
-RUN_NAME = SIMULACAO + STATE[1]  # NOME DO EXPERIMENTO
-DYNAMIC_STATE = STATE[1]  # NOME DO DYNAMIC STATE
+RUN_NAME = SIMULACAO + STATE  # NOME DO EXPERIMENTO
+DYNAMIC_STATE = STATE  # NOME DO DYNAMIC STATE
 DATA_NAME = SIMULACAO
 
 RUN_DIR = os.path.join(SCRIPT_DIR, "runs", RUN_NAME)

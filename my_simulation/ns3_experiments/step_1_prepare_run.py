@@ -8,28 +8,28 @@ import glob
 import os
 import random
 import shutil
+from dotenv import load_dotenv
 
+load_dotenv('config.env')
 # ============================================================================
 # DIRETÓRIOS COM DADOS GERADOS
 # ============================================================================
 
-SIMULACAO = "simulacao_20_minutes_5s"
-'simulacao_1000_sats_100_gs'
+SIMULACAO = os.getenv("SIMULACAO")
 
-STATE = ['dynamic_state_5000ms_for_1200s', 
-         'dynamic_state_5000ms_for_1200s_rl']
+DYNAMIC_STATE_NAME = os.getenv("STATE")
 
-SEEDS = [654148,354865,789315]
+SEED = int(os.getenv("SEED"))
 
+TIME_STEP_S = int(os.getenv("TIME_STEP_S"))
+TIME_STEP_MS = TIME_STEP_S * 1000
+DURATION_S = int(os.getenv("DURATION_S"))
 
 DIR_NAME = SIMULACAO
-DYNAMIC_STATE_NAME = STATE[0]
-TIME_STEP_MS = 5000  # 5 SEGUNDOS
-SIMULATION_END_TIME_NS = 1200 * 1000000000 # 20 MINUTOS
-
+SIMULATION_END_TIME_NS = DURATION_S * 1000000000 # 20 MINUTOS
 DYNAMIC_STATE_UPDATE_INTERVAL_NS = TIME_STEP_MS * 1000000  # Normalmente igual ao TIME_STEP_MS; reduza para capturar mais trocas
 ISL_UTILIZATION_TRACKING_INTERVAL_NS = TIME_STEP_MS * 1000000  # Granularidade da utilizacao dos ISLs; reduzir aumenta overhead
-SIMULATION_SEED = SEEDS[0]
+SIMULATION_SEED = SEED
 
 # ============================================================================
 # CARGA DE REDE PARA AVALIACAO DE HANDOVER
@@ -38,20 +38,20 @@ ENABLE_TCP_FLOW_SCHEDULER = True  # Habilita fluxos TCP fim a fim para medir FCT
 ENABLE_UDP_BURST_SCHEDULER = True  # Habilita bursts UDP para medir entrega e sensibilidade a congestionamento
 ENABLE_PINGMESH_SCHEDULER = True  # Habilita RTT continuo entre pares de GS
 
-NUM_TCP_FLOWS = 400  # MUDAR: para rodada principal, aumente para dezenas ou centenas de fluxos
-TCP_FLOW_SIZE_BYTES = 5_000_000  # Tamanho de cada fluxo TCP; aumente para carga mais pesada
-TCP_FLOW_SPACING_NS = 3_000_000_000  # Separacao entre inicios dos fluxos; reduza para maior concorrencia
+NUM_TCP_FLOWS = int(os.getenv("NUM_TCP_FLOWS"))  # MUDAR: para rodada principal, aumente para dezenas ou centenas de fluxos
+TCP_FLOW_SIZE_BYTES = os.getenv("TCP_FLOW_SIZE_BYTES")  # Tamanho de cada fluxo TCP; aumente para carga mais pesada
+TCP_FLOW_SPACING_NS = os.getenv("TCP_FLOW_SPACING_NS")  # Separacao entre inicios dos fluxos; reduza para maior concorrencia
 
-NUM_UDP_BURSTS = 120  # MUDAR: para rodada principal, aumente o numero de bursts
-UDP_BURST_RATE_MEGABIT_PER_S = 2.0  # Taxa alvo do burst; ajuste para testar saturacao
-UDP_BURST_DURATION_NS = 12_000_000_000  # Duração de cada burst; aumentar estressa mais a rede
-UDP_BURST_SPACING_NS = 10_000_000_000  # Separacao entre bursts; reduzir aumenta superposicao
+NUM_UDP_BURSTS = os.getenv("NUM_UDP_BURSTS")  # MUDAR: para rodada principal, aumente o numero de bursts
+UDP_BURST_RATE_MEGABIT_PER_S = float(os.getenv("UDP_BURST_RATE_MEGABIT_PER_S"))  # Taxa alvo do burst; ajuste para testar saturacao
+UDP_BURST_DURATION_NS = os.getenv("UDP_BURST_DURATION_NS")  # Duração de cada burst; aumentar estressa mais a rede
+UDP_BURST_SPACING_NS = os.getenv("UDP_BURST_SPACING_NS")  # Separacao entre bursts; reduzir aumenta superposicao
 
-PINGMESH_INTERVAL_NS = 5_000_000_000  # Intervalo de ping; menor = RTT mais fino, maior = menos overhead
-PINGMESH_MAX_PAIRS = 50  # MUDAR: Limite de pares para pingmesh; reduza para aliviar custo de controle
+PINGMESH_INTERVAL_NS = os.getenv("PINGMESH_INTERVAL_NS")  # Intervalo de ping; menor = RTT mais fino, maior = menos overhead
+PINGMESH_MAX_PAIRS = int(os.getenv("PINGMESH_MAX_PAIRS"))  # MUDAR: Limite de pares para pingmesh; reduza para aliviar custo de controle
 
-MAX_LOGGED_TCP_FLOW_IDS = 5  # Quantos fluxos terão logs detalhados de cwnd/RTT/progress
-MAX_LOGGED_UDP_BURST_IDS = 5  # Quantos bursts terão logs detalhados de sent/received timestamps
+MAX_LOGGED_TCP_FLOW_IDS = int(os.getenv("MAX_LOGGED_TCP_FLOW_IDS"))  # Quantos fluxos terão logs detalhados de cwnd/RTT/progress
+MAX_LOGGED_UDP_BURST_IDS = int(os.getenv("MAX_LOGGED_UDP_BURST_IDS"))  # Quantos bursts terão logs detalhados de sent/received timestamps
 
 TCP_FLOW_SCHEDULE_FILENAME = "tcp_flow_schedule.csv"  # Arquivo de agenda gerado em runs/<run_name>/
 UDP_BURST_SCHEDULE_FILENAME = "udp_burst_schedule.csv"  # Arquivo de agenda gerado em runs/<run_name>/
