@@ -1,0 +1,40 @@
+{
+  "run_name": "simulacao_dynamic_state_60000ms_for_7200s",
+  "dynamic_state": "dynamic_state_60000ms_for_7200s",
+  "time_span_s": 7140.0,
+  "handover": {
+    "handover_events_total": 7226,
+    "num_gs_with_handover": 100,
+    "avg_handover_rate_per_hour": 36.43361344537815,
+    "interruptions_count": 2140,
+    "interruption_median_s": 60.0,
+    "interruption_p95_s": 120.0
+  },
+  "pingmesh": {
+    "total_samples": 36000,
+    "loss_rate": 0.0,
+    "rtt_median_ms": 138.64972899999998,
+    "rtt_p95_ms": 203.39734355000002,
+    "loss_rate_around_handover": 0.0,
+    "rtt_p95_ms_around_handover": 203.5080345
+  },
+  "tcp_flows": {
+    "total_flows": 25,
+    "completion_rate": 1.0,
+    "throughput_mbps_mean": 5.582050822466997,
+    "throughput_mbps_p95": 6.054373968937856,
+    "fct_s_median": 9.126292036,
+    "fct_s_p95": 13.7877181784
+  },
+  "udp_bursts": {
+    "total_bursts": 25,
+    "delivery_ratio_packets": 0.978420926325894,
+    "delivery_ratio_payload_bytes": 0.978420926325894
+  },
+  "isl": {
+    "samples": 74205,
+    "util_mean": 0.00015528119666666666,
+    "util_p95": 1.9999999999999998e-05,
+    "hotspot_fraction_over_0_8": 0.0
+  }
+}

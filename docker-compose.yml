@@ -1,0 +1,12 @@
+services:
+  hypatia:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: hypatia-sim:latest
+    container_name: hypatia-sim
+    stdin_open: true
+    tty: true
+    working_dir: /workspace/hypatia
+    volumes:
+      - ./my_simulation:/workspace/hypatia/my_simulation

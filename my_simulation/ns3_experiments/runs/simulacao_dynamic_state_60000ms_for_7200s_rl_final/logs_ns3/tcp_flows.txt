@@ -1,0 +1,26 @@
+TCP Flow ID     Source    Target    Size            Start time (ns)   End time (ns)     Duration        Sent            Progress     Avg. rate       Finished?     Metadata
+0               630       639       40.00 Mbit      0                 12804281803       12804.28 ms     40.00 Mbit      100.0%       3.1 Mbit/s      YES           handover_eval
+1               662       674       40.00 Mbit      5000000000        18809001612       13809.00 ms     40.00 Mbit      100.0%       2.9 Mbit/s      YES           handover_eval
+2               704       654       40.00 Mbit      10000000000       19065660614       9065.66 ms      40.00 Mbit      100.0%       4.4 Mbit/s      YES           handover_eval
+3               640       655       40.00 Mbit      15000000000       25203712037       10203.71 ms     40.00 Mbit      100.0%       3.9 Mbit/s      YES           handover_eval
+4               640       717       40.00 Mbit      20000000000       25727890808       5727.89 ms      40.00 Mbit      100.0%       7.0 Mbit/s      YES           handover_eval
+5               706       684       40.00 Mbit      25000000000       33965264871       8965.26 ms      40.00 Mbit      100.0%       4.5 Mbit/s      YES           handover_eval
+6               684       670       40.00 Mbit      30000000000       42286901187       12286.90 ms     40.00 Mbit      100.0%       3.3 Mbit/s      YES           handover_eval
+7               662       659       40.00 Mbit      35000000000       42947482543       7947.48 ms      40.00 Mbit      100.0%       5.0 Mbit/s      YES           handover_eval
+8               695       639       40.00 Mbit      40000000000       50637376545       10637.38 ms     40.00 Mbit      100.0%       3.8 Mbit/s      YES           handover_eval
+9               689       720       40.00 Mbit      45000000000       53903511914       8903.51 ms      40.00 Mbit      100.0%       4.5 Mbit/s      YES           handover_eval
+10              697       674       40.00 Mbit      50000000000       58887455391       8887.46 ms      40.00 Mbit      100.0%       4.5 Mbit/s      YES           handover_eval
+11              696       667       40.00 Mbit      55000000000       61372655523       6372.66 ms      40.00 Mbit      100.0%       6.3 Mbit/s      YES           handover_eval
+12              641       713       40.00 Mbit      60000000000       69126292036       9126.29 ms      40.00 Mbit      100.0%       4.4 Mbit/s      YES           handover_eval
+13              649       660       40.00 Mbit      65000000000       74291567722       9291.57 ms      40.00 Mbit      100.0%       4.3 Mbit/s      YES           handover_eval
+14              659       720       40.00 Mbit      70000000000       81983046383       11983.05 ms     40.00 Mbit      100.0%       3.3 Mbit/s      YES           handover_eval
+15              670       700       40.00 Mbit      75000000000       85881024353       10881.02 ms     40.00 Mbit      100.0%       3.7 Mbit/s      YES           handover_eval
+16              668       700       40.00 Mbit      80000000000       93110840351       13110.84 ms     40.00 Mbit      100.0%       3.1 Mbit/s      YES           handover_eval
+17              694       668       40.00 Mbit      85000000000       95222995760       10223.00 ms     40.00 Mbit      100.0%       3.9 Mbit/s      YES           handover_eval
+18              705       716       40.00 Mbit      90000000000       98721733071       8721.73 ms      40.00 Mbit      100.0%       4.6 Mbit/s      YES           handover_eval
+19              701       633       40.00 Mbit      95000000000       103902379599      8902.38 ms      40.00 Mbit      100.0%       4.5 Mbit/s      YES           handover_eval
+20              708       694       40.00 Mbit      100000000000      108363789638      8363.79 ms      40.00 Mbit      100.0%       4.8 Mbit/s      YES           handover_eval
+21              645       673       40.00 Mbit      105000000000      121702520559      16702.52 ms     40.00 Mbit      100.0%       2.4 Mbit/s      YES           handover_eval
+22              657       661       40.00 Mbit      110000000000      118868120301      8868.12 ms      40.00 Mbit      100.0%       4.5 Mbit/s      YES           handover_eval
+23              682       647       40.00 Mbit      115000000000      122745037770      7745.04 ms      40.00 Mbit      100.0%       5.2 Mbit/s      YES           handover_eval
+24              665       655       40.00 Mbit      120000000000      133702584444      13702.58 ms     40.00 Mbit      100.0%       2.9 Mbit/s      YES           handover_eval

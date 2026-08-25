@@ -1,0 +1,24 @@
+Configure run and logs directory,198430
+Configure simulator,598376
+Setup TCP parameters,306983
+Create initial single forwarding state,191159594522
+Setup routing arbiter on each node,61355136331
+Create initial single forwarding state,345990792
+Set first GSL interface bandwidth,205078676
+Read flow schedule,517775
+Remove previous flow log files,95548
+Setup TCP flow sinks,7479961
+Setup traffic TCP flow starter,62327
+Read UDP burst schedule,383094
+Remove previous UDP burst log files,120936
+Setup UDP burst applications,9216329
+Determined pingmesh pairs,262229
+Remove previous pingmesh log files,269733
+Setup pingmesh servers,6522135
+Setup pingmesh clients,3240013
+Whatever is between previous timestamp and the simulation run,18564
+Run simulation,513774291283
+Write TCP flow log files,444179
+Write UDP burst log files,354431
+Write pingmesh log files,17774012
+Destroy simulator,721964054

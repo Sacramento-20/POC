@@ -1,0 +1,287 @@
+Waf: Entering directory `/home/ns3/hypatia/ns3-sat-sim/simulator/build/debug_all'
+Waf: Leaving directory `/home/ns3/hypatia/ns3-sat-sim/simulator/build/debug_all'
+Build commands will be stored in build/debug_all/compile_commands.json
+'build' finished successfully (0.729s)
+BASIC SIMULATION START
+  > Date... Saturday June 20, 2026
+  > Time... 17:30:17
+
+CONFIGURE RUN DIRECTORY
+  > Run directory: /home/ns3/hypatia/my_simulation/ns3_experiments/runs/simulacao_20_minutes_5s_dynamic_state_5000ms_for_1200s_rl
+  > Logs directory: /home/ns3/hypatia/my_simulation/ns3_experiments/runs/simulacao_20_minutes_5s_dynamic_state_5000ms_for_1200s_rl/logs_ns3
+
+CONFIGURATION
+-----
+KEY                                       VALUE
+dynamic_state_update_interval_ns          5000000000
+enable_isl_utilization_tracking           true
+enable_pingmesh_scheduler                 true
+enable_tcp_flow_scheduler                 true
+enable_udp_burst_scheduler                true
+gsl_data_rate_megabit_per_s               10.0
+gsl_max_queue_size_pkts                   100
+isl_data_rate_megabit_per_s               10.0
+isl_max_queue_size_pkts                   100
+isl_utilization_tracking_interval_ns      5000000000
+pingmesh_endpoint_pairs                   set(625->626,626->627,627->628,628->629,629->630,630->631,631->632,632->633,633->634,634->635,635->636,636->637,637->638,638->639,639->640,640->641,641->642,642->643,643->644,644->645,645->646,646->647,647->648,648->649,649->650,650->651,651->652,652->653,653->654,654->655,655->656,656->657,657->658,658->659,659->660,660->661,661->662,662->663,663->664,664->665,665->666,666->667,667->668,668->669,669->670,670->671,671->672,672->673,673->674,674->675)
+pingmesh_interval_ns                      5000000000
+satellite_network_dir                     satellite_network_state
+satellite_network_routes_dir              dynamic_state_5000ms_for_1200s_rl
+simulation_end_time_ns                    1200000000000
+simulation_seed                           654148
+tcp_flow_enable_logging_for_tcp_flow_ids  set(0,1,2,3,4)
+tcp_flow_schedule_filename                tcp_flow_schedule.csv
+tcp_socket_type                           TcpNewReno
+udp_burst_enable_logging_for_udp_burst_ids  set(0,1,2,3,4)
+udp_burst_schedule_filename               udp_burst_schedule.csv
+
+CONFIGURE SIMULATION
+  > Distributed is not enabled
+  > System id........ 0
+  > No. of systems... 1
+  > Seed............. 654148
+  > Duration......... 1200.00 s (1200000000000 ns)
+
+TCP OPTIMIZATION BASIC
+  > Clock granularity.......... 1 ns
+  > Initial CWND............... 10 packets
+  > Send buffer size........... 33.554 MB
+  > Receive buffer size........ 33.554 MB
+  > Segment size............... 1380 byte
+  > Timestamp option........... enabled
+  > SACK option................ enabled
+  > Window scaling option...... enabled
+  > Pacing..................... disabled
+
+SATELLITE NETWORK
+  > Number of satellites........ 625
+  > Number of ground stations... 100
+  > Number of nodes............. 725
+  > Installed Internet stacks
+  > Reading and creating ISLs
+    >> ISL data rate........ 10 Mbit/s
+    >> ISL max queue size... 100 packets
+    >> Created 1250 ISL(s)
+  > Creating GSLs
+    >> GSL data rate........ 10 Mbit/s
+    >> GSL max queue size... 100 packets
+    >> Read all GSL interfaces information for the 725 nodes
+    >> Number of GSL interfaces to create... 62600
+    >> Finished install GSL interfaces (interfaces, network devices, one shared channel)
+    >> Finished installing traffic control layer qdisc which will be removed later
+    >> Assigning IP addresses...
+       (with many interfaces, this can take long due to an inefficient IP assignment conflict checker)
+       Progress (as there are more entries, it becomes slower):
+       - 10.00% (t = 2.90 s, update took 2.90 s)
+       - 20.00% (t = 9.39 s, update took 6.49 s)
+       - 30.00% (t = 19.25 s, update took 9.85 s)
+       - 40.00% (t = 32.31 s, update took 13.07 s)
+       - 50.00% (t = 48.99 s, update took 16.68 s)
+       - 60.00% (t = 68.74 s, update took 19.75 s)
+       - 70.00% (t = 91.88 s, update took 23.14 s)
+       - 80.00% (t = 118.57 s, update took 26.69 s)
+       - 90.00% (t = 148.62 s, update took 30.05 s)
+       - 100.00% (t = 181.99 s, update took 33.38 s)
+    >> Finished assigning IPs
+    >> Removing traffic control layers (qdiscs)...
+    >> Finished removing GSL queueing disciplines
+    >> GSL interfaces are setup
+  > Populating ARP caches
+
+SETUP SINGLE FORWARDING ROUTING
+  > Create initial single forwarding state
+  > Setting the routing arbiter on each node
+  > Forward state update interval: 5000000000ns
+  > Perform first forwarding state load for t=0
+
+SETUP GSL IF BANDWIDTH HELPER
+  > GSL interface bandwidth update interval: 5000000000ns
+  > Perform first GSL interface bandwidth setting for t=0
+
+TCP FLOW SCHEDULER
+  > TCP flow scheduler is enabled
+  > Read schedule (total flow start events: 400)
+  > Removed previous flow log files if present
+  > Setting up TCP flow sinks
+  > Setting up traffic TCP flow starter
+
+UDP BURST SCHEDULER
+  > UDP burst scheduler is enabled
+  > Read schedule (total UDP bursts: 120)
+  > Removed previous UDP burst log files if present
+  > Setting up UDP burst applications on all endpoint nodes
+
+PINGMESH SCHEDULER
+  > Pingmesh scheduler is enabled
+  > Determined pingmesh pairs (size: 50)
+  > Removed previous pingmesh log files if present
+  > Ping interval: 5000000000 ns
+  > Setting up 100 pingmesh servers
+  > Setting up 50 pingmesh clients
+
+SIMULATION
+Running the simulation for 1200.00 simulation seconds...
+ 0.37% - Simulation Time = 4.39 s ::: Wallclock Time = 12.40 s
+Estimated wallclock time remaining: 56 minutes 18 seconds
+ 0.66% - Simulation Time = 7.90 s ::: Wallclock Time = 23.48 s
+Estimated wallclock time remaining: 59 minutes 2 seconds
+ 0.87% - Simulation Time = 10.45 s ::: Wallclock Time = 36.06 s
+Estimated wallclock time remaining: 1 hours 8 minutes
+ 1.16% - Simulation Time = 13.97 s ::: Wallclock Time = 46.36 s
+Estimated wallclock time remaining: 1 hours 5 minutes
+ 1.53% - Simulation Time = 18.35 s ::: Wallclock Time = 57.80 s
+Estimated wallclock time remaining: 1 hours 2 minutes
+ 2.18% - Simulation Time = 26.14 s ::: Wallclock Time = 81.74 s
+Estimated wallclock time remaining: 1 hours 1 minutes
+ 2.60% - Simulation Time = 31.15 s ::: Wallclock Time = 103.37 s
+Estimated wallclock time remaining: 1 hours 4 minutes
+ 3.20% - Simulation Time = 38.43 s ::: Wallclock Time = 125.24 s
+Estimated wallclock time remaining: 1 hours 3 minutes
+ 3.94% - Simulation Time = 47.25 s ::: Wallclock Time = 148.05 s
+ 4.47% - Simulation Time = 53.64 s ::: Wallclock Time = 168.33 s
+ 5.46% - Simulation Time = 65.49 s ::: Wallclock Time = 188.93 s
+Estimated wallclock time remaining: 54 minutes 32 seconds
+ 6.15% - Simulation Time = 73.80 s ::: Wallclock Time = 212.89 s
+ 6.72% - Simulation Time = 80.69 s ::: Wallclock Time = 236.03 s
+ 7.53% - Simulation Time = 90.32 s ::: Wallclock Time = 260.13 s
+ 8.35% - Simulation Time = 100.15 s ::: Wallclock Time = 283.00 s
+ 8.93% - Simulation Time = 107.22 s ::: Wallclock Time = 304.17 s
+Estimated wallclock time remaining: 51 minutes 40 seconds
+ 9.40% - Simulation Time = 112.80 s ::: Wallclock Time = 327.27 s
+10.09% - Simulation Time = 121.13 s ::: Wallclock Time = 347.72 s
+10.67% - Simulation Time = 128.07 s ::: Wallclock Time = 370.53 s
+11.36% - Simulation Time = 136.37 s ::: Wallclock Time = 394.36 s
+13.46% - Simulation Time = 161.47 s ::: Wallclock Time = 459.18 s
+Estimated wallclock time remaining: 49 minutes 13 seconds
+15.55% - Simulation Time = 186.63 s ::: Wallclock Time = 532.20 s
+16.94% - Simulation Time = 203.31 s ::: Wallclock Time = 592.54 s
+19.00% - Simulation Time = 227.94 s ::: Wallclock Time = 657.51 s
+20.71% - Simulation Time = 248.55 s ::: Wallclock Time = 731.02 s
+22.42% - Simulation Time = 268.99 s ::: Wallclock Time = 794.56 s
+Estimated wallclock time remaining: 45 minutes 50 seconds
+24.10% - Simulation Time = 289.25 s ::: Wallclock Time = 858.48 s
+25.78% - Simulation Time = 309.40 s ::: Wallclock Time = 923.24 s
+27.80% - Simulation Time = 333.59 s ::: Wallclock Time = 996.35 s
+29.47% - Simulation Time = 353.66 s ::: Wallclock Time = 1061.23 s
+31.48% - Simulation Time = 377.75 s ::: Wallclock Time = 1135.08 s
+Estimated wallclock time remaining: 41 minutes 10 seconds
+33.83% - Simulation Time = 405.90 s ::: Wallclock Time = 1200.85 s
+35.86% - Simulation Time = 430.30 s ::: Wallclock Time = 1267.80 s
+37.56% - Simulation Time = 450.66 s ::: Wallclock Time = 1327.85 s
+39.25% - Simulation Time = 471.00 s ::: Wallclock Time = 1392.33 s
+41.29% - Simulation Time = 495.44 s ::: Wallclock Time = 1460.51 s
+Estimated wallclock time remaining: 34 minutes 36 seconds
+42.98% - Simulation Time = 515.74 s ::: Wallclock Time = 1532.77 s
+45.00% - Simulation Time = 540.04 s ::: Wallclock Time = 1602.39 s
+46.69% - Simulation Time = 560.25 s ::: Wallclock Time = 1664.93 s
+48.36% - Simulation Time = 580.38 s ::: Wallclock Time = 1734.81 s
+50.38% - Simulation Time = 604.52 s ::: Wallclock Time = 1800.33 s
+Estimated wallclock time remaining: 29 minutes 33 seconds
+51.71% - Simulation Time = 620.56 s ::: Wallclock Time = 1869.33 s
+53.37% - Simulation Time = 640.40 s ::: Wallclock Time = 1935.94 s
+55.35% - Simulation Time = 664.19 s ::: Wallclock Time = 2006.84 s
+57.33% - Simulation Time = 688.01 s ::: Wallclock Time = 2079.27 s
+58.99% - Simulation Time = 707.86 s ::: Wallclock Time = 2143.64 s
+Estimated wallclock time remaining: 24 minutes 50 seconds
+60.64% - Simulation Time = 727.67 s ::: Wallclock Time = 2206.99 s
+62.62% - Simulation Time = 751.42 s ::: Wallclock Time = 2282.46 s
+64.59% - Simulation Time = 775.13 s ::: Wallclock Time = 2354.23 s
+66.24% - Simulation Time = 794.85 s ::: Wallclock Time = 2421.67 s
+67.88% - Simulation Time = 814.54 s ::: Wallclock Time = 2486.44 s
+Estimated wallclock time remaining: 19 minutes 36 seconds
+69.85% - Simulation Time = 838.15 s ::: Wallclock Time = 2562.57 s
+71.15% - Simulation Time = 853.83 s ::: Wallclock Time = 2624.28 s
+72.78% - Simulation Time = 873.35 s ::: Wallclock Time = 2684.32 s
+75.06% - Simulation Time = 900.75 s ::: Wallclock Time = 2755.76 s
+76.69% - Simulation Time = 920.32 s ::: Wallclock Time = 2824.53 s
+Estimated wallclock time remaining: 14 minutes 18 seconds
+78.65% - Simulation Time = 943.80 s ::: Wallclock Time = 2895.55 s
+80.61% - Simulation Time = 967.26 s ::: Wallclock Time = 2965.69 s
+82.56% - Simulation Time = 990.75 s ::: Wallclock Time = 3032.21 s
+84.53% - Simulation Time = 1014.31 s ::: Wallclock Time = 3100.93 s
+86.16% - Simulation Time = 1033.94 s ::: Wallclock Time = 3162.35 s
+Estimated wallclock time remaining: 8 minutes 27 seconds
+87.79% - Simulation Time = 1053.52 s ::: Wallclock Time = 3231.74 s
+89.42% - Simulation Time = 1073.06 s ::: Wallclock Time = 3297.49 s
+90.72% - Simulation Time = 1088.66 s ::: Wallclock Time = 3360.00 s
+92.34% - Simulation Time = 1108.09 s ::: Wallclock Time = 3422.55 s
+94.28% - Simulation Time = 1131.40 s ::: Wallclock Time = 3489.95 s
+Estimated wallclock time remaining: 3 minutes 31 seconds
+95.90% - Simulation Time = 1150.85 s ::: Wallclock Time = 3552.44 s
+97.85% - Simulation Time = 1174.18 s ::: Wallclock Time = 3617.44 s
+99.47% - Simulation Time = 1193.64 s ::: Wallclock Time = 3685.76 s
+Finished simulation.
+Simulation of 1200.0 seconds took in wallclock time 3707.3 seconds.
+
+STORE TCP FLOW RESULTS
+  > Opening TCP flow log files:
+    >> Opened: /home/ns3/hypatia/my_simulation/ns3_experiments/runs/simulacao_20_minutes_5s_dynamic_state_5000ms_for_1200s_rl/logs_ns3/tcp_flows.csv
+    >> Opened: /home/ns3/hypatia/my_simulation/ns3_experiments/runs/simulacao_20_minutes_5s_dynamic_state_5000ms_for_1200s_rl/logs_ns3/tcp_flows.txt
+  > Writing tcp_flows.txt header
+  > Writing log files line-by-line
+  > Total TCP flow log entries to write... 400
+  > Closing TCP flow log files:
+    >> Closed: /home/ns3/hypatia/my_simulation/ns3_experiments/runs/simulacao_20_minutes_5s_dynamic_state_5000ms_for_1200s_rl/logs_ns3/tcp_flows.csv
+    >> Closed: /home/ns3/hypatia/my_simulation/ns3_experiments/runs/simulacao_20_minutes_5s_dynamic_state_5000ms_for_1200s_rl/logs_ns3/tcp_flows.txt
+  > TCP flow log files have been written
+
+STORE UDP BURST RESULTS
+  > Opening UDP burst log files:
+    >> Opened: /home/ns3/hypatia/my_simulation/ns3_experiments/runs/simulacao_20_minutes_5s_dynamic_state_5000ms_for_1200s_rl/logs_ns3/udp_bursts_outgoing.csv
+    >> Opened: /home/ns3/hypatia/my_simulation/ns3_experiments/runs/simulacao_20_minutes_5s_dynamic_state_5000ms_for_1200s_rl/logs_ns3/udp_bursts_outgoing.txt
+    >> Opened: /home/ns3/hypatia/my_simulation/ns3_experiments/runs/simulacao_20_minutes_5s_dynamic_state_5000ms_for_1200s_rl/logs_ns3/udp_bursts_incoming.csv
+    >> Opened: /home/ns3/hypatia/my_simulation/ns3_experiments/runs/simulacao_20_minutes_5s_dynamic_state_5000ms_for_1200s_rl/logs_ns3/udp_bursts_incoming.txt
+  > Writing udp_bursts_{incoming, outgoing}.txt headers
+  > Writing outgoing log files
+  > Writing incoming log files
+  > Closing UDP burst log files:
+    >> Closed: /home/ns3/hypatia/my_simulation/ns3_experiments/runs/simulacao_20_minutes_5s_dynamic_state_5000ms_for_1200s_rl/logs_ns3/udp_bursts_outgoing.csv
+    >> Closed: /home/ns3/hypatia/my_simulation/ns3_experiments/runs/simulacao_20_minutes_5s_dynamic_state_5000ms_for_1200s_rl/logs_ns3/udp_bursts_outgoing.txt
+    >> Closed: /home/ns3/hypatia/my_simulation/ns3_experiments/runs/simulacao_20_minutes_5s_dynamic_state_5000ms_for_1200s_rl/logs_ns3/udp_bursts_incoming.csv
+    >> Closed: /home/ns3/hypatia/my_simulation/ns3_experiments/runs/simulacao_20_minutes_5s_dynamic_state_5000ms_for_1200s_rl/logs_ns3/udp_bursts_incoming.txt
+  > UDP burst log files have been written
+
+STORE PINGMESH RESULTS
+  > Opening pingmesh log files:
+    >> Opened: /home/ns3/hypatia/my_simulation/ns3_experiments/runs/simulacao_20_minutes_5s_dynamic_state_5000ms_for_1200s_rl/logs_ns3/pingmesh.csv
+    >> Opened: /home/ns3/hypatia/my_simulation/ns3_experiments/runs/simulacao_20_minutes_5s_dynamic_state_5000ms_for_1200s_rl/logs_ns3/pingmesh.txt
+  > Writing pingmesh.txt header
+  > Closing pingmesh log files:
+    >> Closed: /home/ns3/hypatia/my_simulation/ns3_experiments/runs/simulacao_20_minutes_5s_dynamic_state_5000ms_for_1200s_rl/logs_ns3/pingmesh.csv
+    >> Closed: /home/ns3/hypatia/my_simulation/ns3_experiments/runs/simulacao_20_minutes_5s_dynamic_state_5000ms_for_1200s_rl/logs_ns3/pingmesh.txt
+  > Pingmesh log files have been written
+
+CLEAN-UP
+  > Simulator is destroyed
+
+TIMING RESULTS
+------
+[    0.0 -     0.0] (0.0 s) :: Configure run and logs directory
+[    0.0 -     0.0] (0.0 s) :: Configure simulator
+[    0.0 -     0.0] (0.0 s) :: Setup TCP parameters
+[    0.0 -   187.6] (187.6 s) :: Create initial single forwarding state
+[  187.6 -   246.8] (59.2 s) :: Setup routing arbiter on each node
+[  246.8 -   247.2] (0.3 s) :: Create initial single forwarding state
+[  247.2 -   247.4] (0.2 s) :: Set first GSL interface bandwidth
+[  247.4 -   247.4] (0.0 s) :: Read flow schedule
+[  247.4 -   247.4] (0.0 s) :: Remove previous flow log files
+[  247.4 -   247.4] (0.0 s) :: Setup TCP flow sinks
+[  247.4 -   247.4] (0.0 s) :: Setup traffic TCP flow starter
+[  247.4 -   247.4] (0.0 s) :: Read UDP burst schedule
+[  247.4 -   247.4] (0.0 s) :: Remove previous UDP burst log files
+[  247.4 -   247.4] (0.0 s) :: Setup UDP burst applications
+[  247.4 -   247.4] (0.0 s) :: Determined pingmesh pairs
+[  247.4 -   247.4] (0.0 s) :: Remove previous pingmesh log files
+[  247.4 -   247.4] (0.0 s) :: Setup pingmesh servers
+[  247.4 -   247.4] (0.0 s) :: Setup pingmesh clients
+[  247.4 -   247.4] (0.0 s) :: Whatever is between previous timestamp and the simulation run
+[  247.4 -  3954.7] (3707.3 s) :: Run simulation
+[ 3954.7 -  3954.7] (0.0 s) :: Write TCP flow log files
+[ 3954.7 -  3954.7] (0.0 s) :: Write UDP burst log files
+[ 3954.7 -  3954.7] (0.0 s) :: Write pingmesh log files
+[ 3954.7 -  3955.4] (0.7 s) :: Destroy simulator
+
+BASIC SIMULATION END
+  > Date... Saturday June 20, 2026
+  > Time... 18:36:12
+

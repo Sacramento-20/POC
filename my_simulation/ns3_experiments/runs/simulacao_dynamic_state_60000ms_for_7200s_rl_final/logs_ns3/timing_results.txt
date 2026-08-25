@@ -1,0 +1,24 @@
+[    0.0 -     0.0] (0.0 s) :: Configure run and logs directory
+[    0.0 -     0.0] (0.0 s) :: Configure simulator
+[    0.0 -     0.0] (0.0 s) :: Setup TCP parameters
+[    0.0 -   191.2] (191.2 s) :: Create initial single forwarding state
+[  191.2 -   252.5] (61.4 s) :: Setup routing arbiter on each node
+[  252.5 -   252.9] (0.3 s) :: Create initial single forwarding state
+[  252.9 -   253.1] (0.2 s) :: Set first GSL interface bandwidth
+[  253.1 -   253.1] (0.0 s) :: Read flow schedule
+[  253.1 -   253.1] (0.0 s) :: Remove previous flow log files
+[  253.1 -   253.1] (0.0 s) :: Setup TCP flow sinks
+[  253.1 -   253.1] (0.0 s) :: Setup traffic TCP flow starter
+[  253.1 -   253.1] (0.0 s) :: Read UDP burst schedule
+[  253.1 -   253.1] (0.0 s) :: Remove previous UDP burst log files
+[  253.1 -   253.1] (0.0 s) :: Setup UDP burst applications
+[  253.1 -   253.1] (0.0 s) :: Determined pingmesh pairs
+[  253.1 -   253.1] (0.0 s) :: Remove previous pingmesh log files
+[  253.1 -   253.1] (0.0 s) :: Setup pingmesh servers
+[  253.1 -   253.1] (0.0 s) :: Setup pingmesh clients
+[  253.1 -   253.1] (0.0 s) :: Whatever is between previous timestamp and the simulation run
+[  253.1 -   766.9] (513.8 s) :: Run simulation
+[  766.9 -   766.9] (0.0 s) :: Write TCP flow log files
+[  766.9 -   766.9] (0.0 s) :: Write UDP burst log files
+[  766.9 -   766.9] (0.0 s) :: Write pingmesh log files
+[  766.9 -   767.6] (0.7 s) :: Destroy simulator

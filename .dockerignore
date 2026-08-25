@@ -1,0 +1,7 @@
+.git
+.github
+my_simulation/gen_data
+my_simulation/input_data
+my_simulation/ns3_experiments
+*.log
+*.tar.gz
