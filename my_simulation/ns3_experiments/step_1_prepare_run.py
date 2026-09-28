@@ -10,7 +10,7 @@ import random
 import shutil
 from dotenv import load_dotenv
 
-load_dotenv('config.env')
+load_dotenv('../config.env')
 # ============================================================================
 # DIRETÓRIOS COM DADOS GERADOS
 # ============================================================================
@@ -39,15 +39,15 @@ ENABLE_UDP_BURST_SCHEDULER = True  # Habilita bursts UDP para medir entrega e se
 ENABLE_PINGMESH_SCHEDULER = True  # Habilita RTT continuo entre pares de GS
 
 NUM_TCP_FLOWS = int(os.getenv("NUM_TCP_FLOWS"))  # MUDAR: para rodada principal, aumente para dezenas ou centenas de fluxos
-TCP_FLOW_SIZE_BYTES = os.getenv("TCP_FLOW_SIZE_BYTES")  # Tamanho de cada fluxo TCP; aumente para carga mais pesada
-TCP_FLOW_SPACING_NS = os.getenv("TCP_FLOW_SPACING_NS")  # Separacao entre inicios dos fluxos; reduza para maior concorrencia
+TCP_FLOW_SIZE_BYTES = int(os.getenv("TCP_FLOW_SIZE_BYTES"))  # Tamanho de cada fluxo TCP; aumente para carga mais pesada
+TCP_FLOW_SPACING_NS = int(os.getenv("TCP_FLOW_SPACING_NS"))  # Separacao entre inicios dos fluxos; reduza para maior concorrencia
 
-NUM_UDP_BURSTS = os.getenv("NUM_UDP_BURSTS")  # MUDAR: para rodada principal, aumente o numero de bursts
+NUM_UDP_BURSTS = int(os.getenv("NUM_UDP_BURSTS"))  # MUDAR: para rodada principal, aumente o numero de bursts
 UDP_BURST_RATE_MEGABIT_PER_S = float(os.getenv("UDP_BURST_RATE_MEGABIT_PER_S"))  # Taxa alvo do burst; ajuste para testar saturacao
-UDP_BURST_DURATION_NS = os.getenv("UDP_BURST_DURATION_NS")  # Duração de cada burst; aumentar estressa mais a rede
-UDP_BURST_SPACING_NS = os.getenv("UDP_BURST_SPACING_NS")  # Separacao entre bursts; reduzir aumenta superposicao
+UDP_BURST_DURATION_NS = int(os.getenv("UDP_BURST_DURATION_NS"))  # Duração de cada burst; aumentar estressa mais a rede
+UDP_BURST_SPACING_NS = int(os.getenv("UDP_BURST_SPACING_NS"))  # Separacao entre bursts; reduzir aumenta superposicao
 
-PINGMESH_INTERVAL_NS = os.getenv("PINGMESH_INTERVAL_NS")  # Intervalo de ping; menor = RTT mais fino, maior = menos overhead
+PINGMESH_INTERVAL_NS = int(os.getenv("PINGMESH_INTERVAL_NS"))  # Intervalo de ping; menor = RTT mais fino, maior = menos overhead
 PINGMESH_MAX_PAIRS = int(os.getenv("PINGMESH_MAX_PAIRS"))  # MUDAR: Limite de pares para pingmesh; reduza para aliviar custo de controle
 
 MAX_LOGGED_TCP_FLOW_IDS = int(os.getenv("MAX_LOGGED_TCP_FLOW_IDS"))  # Quantos fluxos terão logs detalhados de cwnd/RTT/progress

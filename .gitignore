@@ -1,9 +1,8 @@
-arbiter-satnet.cc
-generate_dynamic_state.py
+src/
 notes.txt
 prompt.txt
-satellite.cc
 my_simulation/config.env
 params.txt
 my_simulation/ns3_experiments/README_HANDOVER_EXPERIMENTS.md
 my_simulation/rl_train/README.md
+__pycache__

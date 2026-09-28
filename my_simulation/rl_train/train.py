@@ -4,9 +4,17 @@ import argparse
 import numpy as np
 import networkx as nx
 from astropy import units as u
+from dotenv import load_dotenv
+
+# Paths and environment configuration
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+CONFIG_ENV_PATH = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "config.env"))
+if os.path.exists(CONFIG_ENV_PATH):
+    load_dotenv(CONFIG_ENV_PATH)
+else:
+    load_dotenv("config.env")
 
 # Add satgenpy path
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", ".."))
 sys.path.insert(0, os.path.join(REPO_ROOT, "satgenpy"))
 
@@ -186,46 +194,106 @@ def generate_rl_dynamic_state(env: SatelliteHandoverEnv, agent: PolicyGradientAg
     print("\nDynamic State files generated successfully!")
 
 def main():
+    # Load configuration from environment variables (mapping to existing ones where available)
+    simulacao_env = os.getenv("SIMULACAO")
+    default_data_dir = os.getenv("RL_DATA_DIR")
+    if not default_data_dir:
+        if simulacao_env:
+            default_data_dir = os.path.join(REPO_ROOT, "my_simulation", "gen_data", simulacao_env)
+        else:
+            default_data_dir = os.path.join(REPO_ROOT, "my_simulation", "gen_data", "simulacao_20_minutes_10s")
+
+    duration_s_env = int(os.getenv("DURATION_S", "1200"))
+    time_step_s_env = int(os.getenv("TIME_STEP_S", "10"))
+    base_time_step_ms = time_step_s_env * 1000
+
+    default_eval_time_step_ms = int(os.getenv("RL_EVAL_TIME_STEP_MS") or os.getenv("RL_TIME_STEP_MS") or base_time_step_ms)
+    default_train_time_step_ms = int(os.getenv("RL_TRAIN_TIME_STEP_MS") or os.getenv("RL_TIME_STEP_MS") or base_time_step_ms)
+
+    default_episodes = int(os.getenv("RL_EPISODES", "30"))
+    default_lr = float(os.getenv("RL_LR", "0.005"))
+    default_hidden_dim = int(os.getenv("RL_HIDDEN_DIM", "32"))
+    default_train_duration_s = int(os.getenv("RL_TRAIN_DURATION_S", "1000"))
+    default_k = int(os.getenv("RL_K", "4"))
+    default_gamma = float(os.getenv("RL_GAMMA", "0.95"))
+    default_seed = int(os.getenv("RL_SEED") or os.getenv("SEED") or "654148")
+    default_load_weights = os.getenv("RL_LOAD_WEIGHTS") or None
+    default_save_weights = os.getenv("RL_SAVE_WEIGHTS") or None
+    default_output_dir = os.getenv("RL_OUTPUT_DIR") or None
+
     parser = argparse.ArgumentParser(description="Train RL Handover Agent on Hypatia Constellation Layout.")
-    parser.add_argument("--data_dir", type=str, 
-                        default=os.path.join(REPO_ROOT, "my_simulation", "gen_data", "simulacao_20_minutes_5s"),
+    parser.add_argument("--data_dir", type=str, default=default_data_dir,
                         help="Path to the generated constellation directory.")
-    parser.add_argument("--output_dir", type=str, default=None,
+    parser.add_argument("--output_dir", type=str, default=default_output_dir,
                         help="Path to write the optimized RL dynamic state. Defaults to a subfolder inside data_dir.")
-    parser.add_argument("--episodes", type=int, default=30, help="Number of training episodes.") # Mudar Previous: 40 
-    parser.add_argument("--lr", type=float, default=0.005, help="Learning rate.") # Mudar Previous: 0.01
-    parser.add_argument("--hidden_dim", type=int, default=32, help="Policy MLP hidden dimension.") # Mudar?
-    parser.add_argument("--eval_duration_s", type=int, default=1200, help="Duration of evaluation simulation in seconds.")
-    parser.add_argument("--load_weights", type=str, default=None, help="Path to pre-trained policy weights (e.g. policy_weights.npz). If provided, skips training.")
-    parser.add_argument("--save_weights", type=str, default=None, help="Path to save the newly trained policy weights (e.g. new_policy_weights.npz).")
+    parser.add_argument("--episodes", type=int, default=default_episodes,
+                        help="Number of training episodes.")
+    parser.add_argument("--lr", type=float, default=default_lr,
+                        help="Learning rate.")
+    parser.add_argument("--hidden_dim", type=int, default=default_hidden_dim,
+                        help="Policy MLP hidden dimension.")
+    parser.add_argument("--eval_duration_s", type=int, default=duration_s_env,
+                        help="Duration of evaluation simulation in seconds.")
+    parser.add_argument("--train_duration_s", type=int, default=default_train_duration_s,
+                        help="Duration of training simulation window in seconds.")
+    parser.add_argument("--eval_time_step_ms", type=int, default=default_eval_time_step_ms,
+                        help="Evaluation time step in milliseconds.")
+    parser.add_argument("--train_time_step_ms", type=int, default=default_train_time_step_ms,
+                        help="Training time step in milliseconds.")
+    parser.add_argument("--k", type=int, default=default_k,
+                        help="Number of candidate satellites per ground station.")
+    parser.add_argument("--gamma", type=float, default=default_gamma,
+                        help="Discount factor gamma for Policy Gradient.")
+    parser.add_argument("--seed", type=int, default=default_seed,
+                        help="Random seed for reproducibility.")
+    parser.add_argument("--load_weights", type=str, default=default_load_weights,
+                        help="Path to pre-trained policy weights (e.g. policy_weights.npz). If provided, skips training.")
+    parser.add_argument("--save_weights", type=str, default=default_save_weights,
+                        help="Path to save the newly trained policy weights (e.g. new_policy_weights.npz).")
 
     args = parser.parse_args()
-    
+
+    if args.seed is not None:
+        np.random.seed(args.seed)
+
     if not os.path.isdir(args.data_dir):
         print(f"Error: Constellation data directory does not exist: {args.data_dir}")
         sys.exit(1)
-        
+
     # Set default output path if not provided
     if args.output_dir is None:
-        args.output_dir = os.path.join(args.data_dir, f"dynamic_state_5000ms_for_{args.eval_duration_s}s_rl_3")
-        
+        rl_state_name = os.getenv("RL_DYNAMIC_STATE_NAME")
+        if not rl_state_name:
+            rl_state_name = f"dynamic_state_{args.eval_time_step_ms}ms_for_{args.eval_duration_s}s_rl"
+        args.output_dir = os.path.join(args.data_dir, rl_state_name)
+
     # Read simulation parameters from input directory
-    # For speed of training, we will simulate a 3600s window,
+    # For speed of training, we will simulate a smaller window (train_duration_s),
     # but when generating the final fstates we can run for the full evaluation duration.
-    train_env = SatelliteHandoverEnv(args.data_dir, time_step_ms=5000, duration_s=1000, K=4)
-    eval_env = SatelliteHandoverEnv(args.data_dir, time_step_ms=5000, duration_s=args.eval_duration_s, K=4)
-    
+    train_env = SatelliteHandoverEnv(
+        args.data_dir,
+        time_step_ms=args.train_time_step_ms,
+        duration_s=args.train_duration_s,
+        K=args.k
+    )
+    eval_env = SatelliteHandoverEnv(
+        args.data_dir,
+        time_step_ms=args.eval_time_step_ms,
+        duration_s=args.eval_duration_s,
+        K=args.k
+    )
+
     agent = PolicyGradientAgent(
         state_dim=train_env.state_dim,
         action_dim=train_env.action_dim,
         hidden_dim=args.hidden_dim,
         lr=args.lr,
-        gamma=0.95
+        gamma=args.gamma
     )
-    
+
     default_weights_path = os.path.join(SCRIPT_DIR, "policy_weights.npz")
     weights_save_path = args.save_weights if args.save_weights else default_weights_path
-    
+
     # 1. Load weights or train
     if args.load_weights:
         print(f"Loading weights from: {args.load_weights}")
@@ -239,14 +307,15 @@ def main():
         # Save weights
         agent.save_weights(weights_save_path)
         print(f"Policy weights saved to {weights_save_path}")
-    
+
     # 2. Generate the optimized routing tables using the trained agent
     generate_rl_dynamic_state(eval_env, agent, args.output_dir)
-    
+
+    dynamic_state_folder = os.path.basename(os.path.normpath(args.output_dir))
     print("\n" + "=" * 80)
     print("SUCCESS: RL OPTIMIZED DYNAMIC STATE GENERATED!")
-    print("You can now modify step_1_prepare_run.py to use this directory:")
-    print(f"  DYNAMIC_STATE_NAME = \"dynamic_state_5000ms_for_{args.eval_duration_s}s_rl\"")
+    print("You can now update STATE in config.env or step_1_prepare_run.py to use this directory:")
+    print(f"  STATE = \"{dynamic_state_folder}\"")
     print("=" * 80)
 
 if __name__ == "__main__":

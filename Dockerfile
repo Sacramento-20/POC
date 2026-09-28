@@ -154,9 +154,9 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 # -------------------------------------------------------------
 # 4. Substituição dos arquivos customizados da raiz
 # -------------------------------------------------------------
-COPY arbiter-satnet.cc /workspace/hypatia/ns3-sat-sim/simulator/contrib/satellite-network/model/arbiter-satnet.cc
-COPY generate_dynamic_state.py /workspace/hypatia/satgenpy/satgen/dynamic_state/generate_dynamic_state.py
-COPY satellite.cc /workspace/hypatia/ns3-sat-sim/simulator/src/satellite/model/satellite.cc
+COPY src/arbiter-satnet.cc /workspace/hypatia/ns3-sat-sim/simulator/contrib/satellite-network/model/arbiter-satnet.cc
+COPY src/generate_dynamic_state.py /workspace/hypatia/satgenpy/satgen/dynamic_state/generate_dynamic_state.py
+COPY src/satellite.cc /workspace/hypatia/ns3-sat-sim/simulator/src/satellite/model/satellite.cc
 
 # -------------------------------------------------------------
 # 5. Criação do ponto de montagem (Volume Mount Point)

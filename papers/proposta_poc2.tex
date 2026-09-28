@@ -1,0 +1,512 @@
+\documentclass[12pt,a4paper]{article}
+
+% ─── Pacotes ────────────────────────────────────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{setspace}
+\usepackage{parskip}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+
+% ─── Geometria da página ────────────────────────────────────────────────────
+\geometry{top=2.5cm, bottom=2.5cm, left=3cm, right=2.5cm}
+
+% ─── Cabeçalho e rodapé ─────────────────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\small POC II --- Proposta de Projeto}
+\lhead{\small UFMG / DCC}
+\cfoot{\thepage}
+
+% ─── Formatação de seções ───────────────────────────────────────────────────
+\titleformat{\section}{\large\bfseries}{\thesection}{1em}{}[\titlerule]
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalsize\itshape}{\thesubsubsection}{1em}{}
+
+% ─── Espaçamento ────────────────────────────────────────────────────────────
+\setlength{\parskip}{6pt}
+\onehalfspacing
+
+% ─── Hyperlinks ─────────────────────────────────────────────────────────────
+\hypersetup{colorlinks=true, linkcolor=blue!70!black, citecolor=blue!70!black, urlcolor=blue!70!black}
+
+% ════════════════════════════════════════════════════════════════════════════
+\begin{document}
+
+% ─── Capa ───────────────────────────────────────────────────────────────────
+\begin{titlepage}
+  \centering
+  \vspace*{1cm}
+  {\large\textbf{Universidade Federal de Minas Gerais}}\\[0.3cm]
+  {\large Departamento de Ciência da Computação}\\[0.2cm]
+  {\normalsize Belo Horizonte, MG, Brasil}
+  \vspace{3cm}
+
+  {\LARGE\bfseries Proposta de Projeto Orientado a Computação~II}
+
+  \vspace{1.5cm}
+
+  {\large\bfseries
+    Handover Inteligente em Redes LEO com\\
+    Reward Shaping Multiobjetivo, Memória\\
+    Temporal (LSTM) e PPO
+  }
+
+  \vspace{2cm}
+
+  \begin{tabular}{ll}
+    \textbf{Aluno:}      & Sacramento \\[4pt]
+    \textbf{Orientador:} & --- \\[4pt]
+    \textbf{Semestre:}   & 2026/2 \\
+  \end{tabular}
+
+  \vfill
+  {\normalsize Belo Horizonte, \today}
+\end{titlepage}
+
+% ─── Sumário ────────────────────────────────────────────────────────────────
+\tableofcontents
+\newpage
+
+% ════════════════════════════════════════════════════════════════════════════
+\section{Introdução}
+
+A integração de redes via satélite é um pilar fundamental da sexta geração de
+conectividade (6G), com o objetivo de fornecer cobertura global e ininterrupta.
+Constelações de satélites \textit{Low Earth Orbit} (LEO), operando a
+aproximadamente 550\,km de altitude, oferecem baixa latência, mas impõem o
+desafio de handovers frequentes --- a cada 2 a 5 minutos --- devido à alta
+velocidade orbital ($\approx 7{,}6$\,km/s)~\cite{mohan2024}.
+
+O trabalho realizado na primeira parte deste projeto (POC~I) estabeleceu uma
+solução baseline baseada no algoritmo REINFORCE com uma rede MLP de 32
+\textit{features}, integrada ao pipeline Hypatia + ns-3. Os resultados
+demonstraram que o agente treinado é capaz de reduzir em 47,1\% as
+interrupções de conectividade em simulações de 2~horas (mais de um ciclo
+orbital completo), com ganho de 4,4\% na latência mediana. Contudo, dois
+pontos de melhoria críticos foram identificados:
+\begin{enumerate}
+  \item O agente realiza 2,65$\times$ mais handovers que a heurística de
+        distância mínima, sugerindo que a função de recompensa atual
+        ($\beta = 15$) não penaliza adequadamente as trocas desnecessárias.
+  \item A MLP processa cada passo de tempo de forma independente, sem
+        explorar a periodicidade orbital de $\approx 96$~minutos.
+\end{enumerate}
+
+Esta proposta descreve as atividades a serem realizadas na POC~II, que visam
+superar essas limitações por meio de três eixos de investigação:
+\begin{enumerate}[label=\textbf{\arabic*.}]
+  \item \textbf{Reward Shaping Multiobjetivo} --- reformulação da função de
+        recompensa para equilibrar qualidade do enlace, disponibilidade de
+        conectividade e custo de handover, inspirada em trabalhos recentes de
+        handover multiobjetivo em LEO~\cite{song2025}.
+  \item \textbf{Memória Temporal via LSTM} --- substituição da MLP por uma
+        arquitetura recorrente capaz de capturar dependências temporais nos
+        padrões orbitais, abordagem estudada em~\cite{fan2025}.
+  \item \textbf{Algoritmo PPO} --- substituição do REINFORCE pelo Proximal
+        Policy Optimization (PPO)~\cite{schulman2017}, algoritmo de política
+        mais estável e eficiente em termos de amostras.
+\end{enumerate}
+
+Adicionalmente, todos os experimentos serão executados com validação estatística
+robusta usando múltiplas seeds, seguindo as diretrizes de~\cite{henderson2018}.
+
+% ════════════════════════════════════════════════════════════════════════════
+\section{Objetivos}
+
+\subsection{Objetivo Geral}
+
+Estender e aprofundar o sistema de handover inteligente desenvolvido na POC~I,
+investigando o impacto isolado e combinado de reward shaping multiobjetivo,
+memória temporal (LSTM) e do algoritmo PPO sobre as métricas de desempenho de
+rede em uma constelação LEO simulada de 625 satélites.
+
+\subsection{Objetivos Específicos}
+
+\begin{itemize}
+  \item \textbf{(H1 --- Reward Shaping)} Avaliar se uma função de recompensa
+        multiobjetivo, com pesagem sistemática das componentes de sinal,
+        latência, disponibilidade e penalidade de handover, reduz o excesso de
+        trocas sem sacrificar significativamente a disponibilidade de conexão.
+
+  \item \textbf{(H2 --- Temporalidade)} Verificar se uma política LSTM melhora
+        a capacidade de antecipação orbital em relação à política MLP,
+        especialmente antes do primeiro ciclo orbital completo ($\approx
+        96$~min).
+
+  \item \textbf{(H3 --- PPO)} Comparar REINFORCE e PPO em termos de
+        convergência, estabilidade de treinamento e qualidade da política final
+        nas configurações MLP e LSTM.
+
+  \item \textbf{(Escala)} Realizar um experimento exploratório com a constelação
+        em escala maior, motivado pelo contexto Starlink com 4.236 satélites
+        estudado em~\cite{wu2025}.
+
+  \item \textbf{(Validação)} Executar todos os experimentos com $N=10$ seeds
+        independentes e reportar $\mu \pm \sigma$ com intervalos de confiança de
+        95\%, seguindo as recomendações de~\cite{henderson2018}.
+\end{itemize}
+
+\subsection{Contribuições Esperadas}
+
+\begin{enumerate}
+  \item Análise sistemática do trade-off entre continuidade de conexão,
+        qualidade de enlace e frequência de handover por meio de reward shaping.
+  \item Demonstração empírica do benefício de memória temporal na política de
+        handover LEO antes e ao longo do ciclo orbital.
+  \item Estudo de ablation comparando arquitetura (MLP vs.\ LSTM) e algoritmo
+        (REINFORCE vs.\ PPO) de forma cruzada.
+  \item Framework de avaliação estatisticamente robusto e reproduzível para
+        políticas de handover em simuladores LEO.
+\end{enumerate}
+
+% ════════════════════════════════════════════════════════════════════════════
+\section{Referencial Teórico}
+
+\subsection{Handover Multiobjetivo em Redes LEO}
+
+O trabalho de Song et al.~\cite{song2025} formula o handover como um problema
+de otimização multiobjetivo, balanceando simultaneamente frequência de handover,
+carga dos satélites, throughput e estabilidade do serviço (p.~1--2 do artigo).
+Os autores propõem uma nova função de recompensa combinada:
+\begin{equation}
+  R = w_1 Q_{\text{signal}}
+    + w_2 Q_{\text{latency}}
+    + w_3 Q_{\text{availability}}
+    - w_4 I_{\text{HO}}
+    - w_5 \text{Load},
+  \label{eq:reward-multi}
+\end{equation}
+onde cada $w_i$ é um peso a ser ajustado sistematicamente. A
+Equação~\eqref{eq:reward-multi} serve de base para o Experimento~1 desta
+proposta, transformando o ajuste de $\beta$ em uma investigação científica:
+\textit{qual é o trade-off ótimo entre continuidade de conexão, qualidade do
+enlace e número de handovers?}
+
+\subsection{Arquitetura LSTM para Previsão e Handover em LEO}
+
+Fan et al.~\cite{fan2025} propõem o uso de LSTM para prever padrões futuros de
+tráfego em redes LEO e, com base nessa previsão, tomar decisões proativas de
+handover (p.~2--4 do artigo). A arquitetura combina LSTM com atenção e Rainbow
+DQN para capturar o estado temporal da rede. Para este projeto, o foco está na
+camada recorrente como substituta da MLP:
+\begin{equation}
+  [s_{t-T+1}, \ldots, s_t] \xrightarrow{\text{LSTM}} h_t \xrightarrow{\pi} a_t,
+\end{equation}
+onde $T$ é o tamanho da janela temporal. Isso permite ao agente observar a
+trajetória orbital, e não apenas o estado instantâneo.
+
+\subsection{Mecanismo de Atenção --- Transformer}
+
+Vaswani et al.~\cite{vaswani2017} introduziram o Transformer, que substitui a
+recorrência por mecanismos de self-attention, permitindo modelar relações entre
+diferentes posições da sequência sem dependência temporal estrita (p.~2--3 do
+artigo). Para o problema de handover LEO, o agente poderia aprender quais
+momentos do histórico orbital são mais relevantes para a decisão atual.
+
+\subsection{Proximal Policy Optimization (PPO)}
+
+Schulman et al.~\cite{schulman2017} propõem o PPO, um algoritmo de gradiente de
+política que melhora a estabilidade e a eficiência de amostra do REINFORCE
+mediante uma função objetivo com razão de probabilidade \textit{clipped} (p.~1--2
+do artigo):
+\begin{equation}
+  L^{\text{CLIP}}(\theta) = \hat{\mathbb{E}}_t\!\left[
+    \min\!\left(r_t(\theta)\hat{A}_t,\,
+    \operatorname{clip}(r_t(\theta),\,1-\varepsilon,\,1+\varepsilon)\,\hat{A}_t
+    \right)
+  \right],
+  \label{eq:ppo}
+\end{equation}
+onde $r_t(\theta) = \pi_\theta(a_t|s_t) / \pi_{\theta_{\text{old}}}(a_t|s_t)$.
+O PPO permite múltiplas atualizações sobre os dados coletados sem divergência da
+política.
+
+\subsection{Escalabilidade: Mega-constelações}
+
+Wu et al.~\cite{wu2025} apresentam o SaTE para a constelação Starlink com 4.236
+satélites, usando grafos heterogêneos e redes neurais de grafos para inferência
+em tempo real com latência média de 17\,ms (p.~1--3 do artigo). O trabalho
+justifica a motivação para escalar os experimentos e contextualiza a dificuldade
+computacional associada.
+
+\subsection{Reprodutibilidade em Deep Reinforcement Learning}
+
+Henderson et al.~\cite{henderson2018} demonstram que resultados de Deep RL
+apresentam variação significativa devido ao não determinismo e às características
+estocásticas do treinamento, recomendando práticas rigorosas de avaliação (p.~2--5
+do artigo): múltiplas seeds independentes, testes de significância, e reporte de
+$\mu \pm \sigma$ com IC de 95\%.
+
+% ════════════════════════════════════════════════════════════════════════════
+\section{Metodologia}
+
+\subsection{Ponto de Partida: Baseline da POC~I}
+
+O ponto de partida é o agente REINFORCE + MLP de 32 features treinado na POC~I,
+avaliado no pipeline Hypatia + ns-3 com a constelação de 625 satélites. A função
+de recompensa atual é:
+\begin{equation}
+  r_t = \text{SNR} - \alpha L_{\text{prop}} - \beta I_{\text{HO}} - \delta I_{\text{disconnect}},
+  \quad \beta = 15,\; \delta = 50.
+  \label{eq:reward-baseline}
+\end{equation}
+Métricas de referência: número de handovers, interrupções, RTT mediano, UDP
+delivery ratio, TCP FCT e throughput.
+
+\subsection{Experimento~1 --- Reward Shaping Multiobjetivo}
+
+Mantendo arquitetura MLP e algoritmo REINFORCE, substitui-se
+Eq.~\eqref{eq:reward-baseline} pela função multiobjetivo Eq.~\eqref{eq:reward-multi}.
+Varia-se sistematicamente:
+\[
+  \beta \in \{5,\, 10,\, 15,\, 25,\, 50,\, 75\}.
+\]
+Analisa-se o trade-off entre handovers e disponibilidade. Os pesos ótimos
+definidos aqui serão usados nos experimentos subsequentes.
+
+\subsection{Experimento~2 --- Memória Temporal com LSTM}
+
+Com a recompensa otimizada, substitui-se a MLP por uma LSTM de janela $T$:
+\begin{equation}
+  \mathbf{S}_t = [s_{t-T+1},\, \ldots,\, s_{t-1},\, s_t] \in \mathbb{R}^{T \times 32}.
+\end{equation}
+Comparação: REINFORCE + MLP vs.\ REINFORCE + LSTM ($T \in \{10, 20\}$), nos
+horizontes de 20\,min e 2\,h.
+
+Pergunta científica:
+\begin{quote}
+  \textit{A memória temporal permite ao agente explorar a periodicidade orbital
+  de $\approx 96$~min e melhorar o desempenho antes do primeiro ciclo orbital
+  completo?}
+\end{quote}
+
+\subsection{Experimento~3 --- Transformer como Alternativa ao LSTM}
+
+Substitui-se a LSTM por um Transformer Encoder de $L$ camadas sobre a janela
+de $T$ passos:
+\begin{equation}
+  [s_{t-T+1}, \ldots, s_t]
+  \xrightarrow{\text{Transformer Encoder}} h_t
+  \xrightarrow{\pi} a_t.
+\end{equation}
+Comparação direta com os resultados do Experimento~2, avaliando desempenho e
+custo computacional.
+
+\subsection{Experimento~4 --- Ablation: Arquitetura $\times$ Algoritmo (PPO)}
+
+\begin{table}[H]
+  \centering
+  \caption{Matriz de ablation.}
+  \label{tab:ablation}
+  \begin{tabularx}{0.80\textwidth}{lXX}
+    \toprule
+    \textbf{Configuração}  & \textbf{Arquitetura} & \textbf{Algoritmo} \\
+    \midrule
+    Baseline (POC~I)       & MLP                  & REINFORCE          \\
+    Experimento 4a         & MLP                  & PPO                \\
+    Experimento 4b         & LSTM                 & REINFORCE          \\
+    Experimento 4c         & LSTM                 & PPO                \\
+    \addlinespace
+    Referência             & ---                  & Heurística dist.\ mínima \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection{Experimento~5 --- Validação Estatística}
+
+Todas as configurações da Tabela~\ref{tab:ablation} são executadas com $N=10$
+seeds independentes. Reportam-se~\cite{henderson2018} (p.~3--4):
+\begin{equation}
+  \bar{x} \pm t_{0{,}025,\, N-1} \cdot \frac{s}{\sqrt{N}}.
+\end{equation}
+
+\subsection{Experimento~6 (Exploratório) --- Escalabilidade}
+
+Experimento exploratório escalando a constelação para um número maior de
+satélites, motivado por Wu et al.~\cite{wu2025} com 4.236 satélites (p.~2
+do artigo). O estado do agente mantém $K=4$ candidatos independentemente do
+tamanho da constelação, sugerindo boa escalabilidade da política aprendida.
+
+% ════════════════════════════════════════════════════════════════════════════
+\section{Hipóteses de Pesquisa}
+
+\begin{description}[leftmargin=2.2cm, style=sameline]
+  \item[\textbf{H1 --- Reward Shaping:}]
+        Uma função de recompensa multiobjetivo reduz o excesso de handovers sem
+        sacrificar significativamente a disponibilidade de conexão.
+
+  \item[\textbf{H2 --- Temporalidade:}]
+        Uma política LSTM melhora a capacidade de antecipação em relação à MLP,
+        especialmente antes/ao longo do primeiro ciclo orbital completo de
+        $\approx 96$~min.
+
+  \item[\textbf{H3 --- Eficiência Algorítmica:}]
+        O PPO converge mais rapidamente e produz políticas com menor variância
+        do que o REINFORCE, em ambas as arquiteturas (MLP e LSTM).
+\end{description}
+
+% ════════════════════════════════════════════════════════════════════════════
+\section{Resultados Esperados}
+
+\begin{enumerate}
+  \item \textbf{Função de recompensa otimizada}: identificação dos pesos $w_i$
+        que minimizam o número de handovers com perda aceitável de disponibilidade.
+  \item \textbf{Ganho de antecipação orbital}: demonstração de que a LSTM
+        melhora métricas de longo prazo (2\,h) em relação à MLP, especialmente
+        antes do primeiro ciclo orbital completo.
+  \item \textbf{Estudo de ablation}: tabela comparativa para as quatro
+        combinações arquitetura $\times$ algoritmo, com IC de 95\% e análise de
+        significância estatística.
+  \item \textbf{Resultados estatisticamente robustos}: diferenças reportadas com
+        significância estatística, seguindo Henderson et al.~\cite{henderson2018}.
+  \item \textbf{Framework reproduzível}: código e scripts disponibilizados para
+        extensão futura.
+\end{enumerate}
+
+% ════════════════════════════════════════════════════════════════════════════
+\section{Cronograma}
+
+\begin{table}[H]
+  \centering
+  \caption{Cronograma de atividades --- POC~II (10 semanas).}
+  \label{tab:cronograma}
+  \begin{tabularx}{\textwidth}{cp{4.5cm}p{7.5cm}}
+    \toprule
+    \textbf{Semana} & \textbf{Atividade Principal} & \textbf{Tarefas Detalhadas} \\
+    \midrule
+    1
+    & Revisão bibliográfica e setup
+    & Leitura aprofundada de \cite{song2025,fan2025,schulman2017,henderson2018,wu2025,vaswani2017};
+      revisão do código da POC~I; configuração do ambiente de experimentos. \\
+    \addlinespace
+    2
+    & Implementação do Exp.~1 (Reward Shaping)
+    & Implementação da nova função de recompensa multiobjetivo (Eq.~\ref{eq:reward-multi});
+      definição do grid de pesos $\beta$; primeiros treinamentos. \\
+    \addlinespace
+    3
+    & Avaliação do Exp.~1
+    & Execução completa com o grid de pesos; análise das métricas;
+      seleção da configuração ótima de recompensa. \\
+    \addlinespace
+    4
+    & Implementação do Exp.~2 (LSTM)
+    & Implementação da arquitetura LSTM no Gymnasium;
+      janelas $T \in \{10, 20\}$; primeiros treinamentos. \\
+    \addlinespace
+    5
+    & Avaliação do Exp.~2 e início do Exp.~3 (Transformer)
+    & Comparação MLP vs.\ LSTM nos horizontes de 20\,min e 2\,h;
+      análise da antecipação orbital; início da implementação do Transformer. \\
+    \addlinespace
+    6
+    & Avaliação do Exp.~3 (Transformer)
+    & Conclusão da implementação do Transformer;
+      comparação LSTM vs.\ Transformer;
+      seleção da melhor arquitetura com memória temporal. \\
+    \addlinespace
+    7
+    & Implementação e avaliação do Exp.~4 (PPO)
+    & Implementação do PPO; execução do ablation \{MLP, LSTM\} $\times$ \{REINFORCE, PPO\};
+      coleta das curvas de convergência. \\
+    \addlinespace
+    8
+    & Validação estatística (Exp.~5) e exploratório (Exp.~6)
+    & Execução com $N=10$ seeds; cálculo de $\mu \pm \sigma$ e IC 95\%;
+      experimento exploratório de escalabilidade. \\
+    \addlinespace
+    9
+    & Análise consolidada dos resultados
+    & Geração de gráficos comparativos, tabelas e CDFs;
+      análise do ablation; identificação das melhores configurações. \\
+    \addlinespace
+    10
+    & Escrita do relatório final
+    & Redação da monografia (introdução, referencial teórico, metodologia,
+      resultados e conclusão); revisão e entrega. \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+% ════════════════════════════════════════════════════════════════════════════
+\section{Recursos Necessários}
+
+\begin{itemize}
+  \item Ambiente de simulação Hypatia + ns-3 já configurado (herdado da POC~I).
+  \item Acesso a GPU para treinamento dos modelos LSTM, Transformer e PPO.
+  \item Python $\geq 3.10$: \texttt{PyTorch}, \texttt{Gymnasium},
+        \texttt{NumPy}, \texttt{SciPy}, \texttt{Matplotlib}, \texttt{Pandas}.
+  \item Dataset de trajetórias TLE da constelação Starlink (herdado da POC~I).
+\end{itemize}
+
+% ════════════════════════════════════════════════════════════════════════════
+\section*{Referências}
+\addcontentsline{toc}{section}{Referências}
+
+\begin{thebibliography}{99}
+
+\bibitem{song2025}
+M.~Song, J.~Tian, H.~Zhang, T.~Xu, H.~Hu e T.~Zhou,
+``Deep Reinforcement Learning Based Multi-Objective Handover for LEO Satellite Networks,''
+em \textit{2025 IEEE 101st Vehicular Technology Conference (VTC2025-Spring)},
+IEEE, 2025. DOI: 10.1109/VTC2025-SPRING65109.2025.11174574.
+\textit{Citadas p.~1--2.}
+
+\bibitem{fan2025}
+D.~Fan, S.~Zhou, J.~Luo, Z.~Yang e M.~Zeng,
+``Joint Traffic Prediction and Handover Design for LEO Satellite Networks with LSTM and Attention-Enhanced Rainbow DQN,''
+\textit{Electronics}, vol.~14, n.~15, p.~3040, 2025.
+DOI: 10.3390/electronics14153040.
+\textit{Citadas p.~2--4.}
+
+\bibitem{vaswani2017}
+A.~Vaswani, N.~Shazeer, N.~Parmar, J.~Uszkoreit, L.~Jones, A.~N.~Gomez,
+L.~Kaiser e I.~Polosukhin,
+``Attention Is All You Need,''
+em \textit{Advances in Neural Information Processing Systems (NeurIPS)}, 2017.
+arXiv:1706.03762.
+\textit{Citadas p.~2--3.}
+
+\bibitem{schulman2017}
+J.~Schulman, F.~Wolski, P.~Dhariwal, A.~Radford e O.~Klimov,
+``Proximal Policy Optimization Algorithms,''
+arXiv:1707.06347, OpenAI, 2017.
+\textit{Citadas p.~1--2.}
+
+\bibitem{wu2025}
+H.~Wu, Y.~Han, M.~Rajpal, Q.~Zhang e J.~Wang,
+``SaTE: Low-Latency Traffic Engineering for Satellite Networks,''
+em \textit{Proceedings of the ACM SIGCOMM 2025 Conference}, SIGCOMM '25,
+pp.~896--916. ACM, 2025. DOI: 10.1145/3718958.3750524.
+\textit{Citadas p.~1--3.}
+
+\bibitem{henderson2018}
+P.~Henderson, R.~Islam, P.~Bachman, J.~Pineau, D.~Precup e D.~Meger,
+``Deep Reinforcement Learning that Matters,''
+em \textit{Proceedings of the 32nd AAAI Conference on Artificial Intelligence (AAAI-18)},
+2018. DOI: 10.1609/aaai.v32i1.11694.
+\textit{Citadas p.~2--5.}
+
+\bibitem{mohan2024}
+N.~Mohan, A.~E.~Ferguson, H.~Cech, R.~Bose, P.~R.~Renatin, M.~K.~Marina e J.~Ott,
+``A Multifaceted Look at Starlink Performance,''
+em \textit{Proceedings of the ACM Web Conference 2024}, WWW '24,
+pp.~2723--2734. ACM, 2024.
+
+\end{thebibliography}
+
+\end{document}
